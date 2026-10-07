@@ -3,42 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assessment Platform</title>
+  <title>Maternity & Perinatologi Clinical Board Exam</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
 
-  <div class="max-w-xl w-full bg-slate-800 rounded-2xl shadow-2xl p-6 border border-slate-700">
-    <!-- Quiz Header -->
+  <div class="max-w-2xl w-full bg-slate-800 rounded-2xl shadow-2xl p-6 border border-slate-700 my-8">
+    <!-- Header -->
     <div id="quiz-header" class="mb-6 border-b border-slate-700 pb-4 flex justify-between items-center">
       <div>
-        <h1 class="text-xl font-bold text-teal-400">Clinical & Professional Assessment</h1>
-        <p class="text-xs text-slate-400 mt-1">Pilihlah jawaban yang paling tepat</p>
+        <h1 class="text-xl font-bold text-teal-400">Maternity & Nursery Clinical Quiz</h1>
+        <p class="text-xs text-slate-400 mt-1">50 High-Yield Cases, Symptoms, Interventions & Dosages</p>
       </div>
       <div id="score-display" class="bg-slate-900 px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 border border-slate-700">
-        Score: 0
+        Score: 0 / 50
       </div>
     </div>
 
-    <!-- Question Container -->
+    <!-- Quiz Area -->
     <div id="quiz-container">
-      <div id="question-text" class="text-base font-medium mb-4 text-slate-200">
-        Loading question...
+      <div id="question-number" class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-1"></div>
+      <div id="question-text" class="text-base font-medium mb-4 text-slate-200 leading-relaxed">
+        Loading assessment...
       </div>
       <div id="options-container" class="space-y-3">
-        <!-- Options injected dynamically -->
+        <!-- Dynamic Options -->
       </div>
     </div>
 
-    <!-- Result Screen -->
+    <!-- Result Area -->
     <div id="result-container" class="hidden text-center py-8">
       <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
       </div>
-      <h2 class="text-2xl font-bold text-white mb-2">Assessment Selesai!</h2>
-      <p id="final-score" class="text-lg text-slate-300 mb-6">Nilai Akhir Anda: 0 / 0</p>
+      <h2 class="text-2xl font-bold text-white mb-2">Clinical Assessment Complete!</h2>
+      <p id="final-score" class="text-lg text-slate-300 mb-6">Nilai Akhir Anda: 0 / 50</p>
       <button onclick="restartQuiz()" class="px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-medium rounded-lg shadow-lg transition duration-200">
-        Ulangi Assessment
+        Ulangi Test
       </button>
     </div>
   </div>
@@ -62,11 +63,10 @@
         }
       }
 
-      // 1. Exciting Click (Correct Answer)
       playCorrect() {
         this.init();
         const now = this.ctx.currentTime;
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // Arpeggio C Major
+        const notes = [523.25, 659.25, 783.99, 1046.50];
 
         notes.forEach((freq, idx) => {
           const osc = this.ctx.createOscillator();
@@ -87,7 +87,6 @@
         });
       }
 
-      // 2. Bad Tone / Low Buzz (Incorrect Answer)
       playIncorrect() {
         this.init();
         const now = this.ctx.currentTime;
@@ -118,7 +117,6 @@
         osc2.stop(now + 0.3);
       }
 
-      // 3. Victory Applause & Fanfare (Final Result)
       playApplause() {
         this.init();
         const now = this.ctx.currentTime;
@@ -183,38 +181,508 @@
     const soundEngine = new SoundEngine();
 
     // ==========================================
-    // BANK SOAL & LOGIKA APP
+    // 50 MATERNITY & NURSERY CLINICAL CASES
     // ==========================================
     const questions = [
       {
-        question: "A patient presents with sudden dyspnea and chest pain. What is the priority immediate nursing intervention?",
+        question: "A G2P1 patient at 38 weeks presents with severe headache, visual disturbances, BP 165/110 mmHg, and 3+ proteinuria. What is the immediate prophylactic drug and regimen to prevent eclamptic seizures?",
         options: [
-          "Administer prescribed oral analgesics",
-          "Assess airway, breathing, and oxygen saturation",
-          "Document vital signs in the electronic chart",
-          "Schedule a stat chest X-ray"
+          "Magnesium Sulfate 4g IV loading dose over 15-20 min, followed by 2g/hr infusion",
+          "Hydralazine 20mg IV push every 10 minutes",
+          "Diazepam 10mg IV stat",
+          "Labetalol 100mg PO BID"
+        ],
+        answer: 0
+      },
+      {
+        question: "A primigravida at 32 weeks presents with painless, bright red vaginal bleeding. Ultrasound confirms placenta previa. Which medication is indicated to promote fetal lung maturity?",
+        options: [
+          "Oxytocin 10 Units IM",
+          "Betamethasone 12mg IM, 2 doses 24 hours apart",
+          "Terbutaline 0.25mg SC",
+          "Methylergonovine 0.2mg IM"
         ],
         answer: 1
       },
       {
-        question: "When delivering an SBAR handover report, under which component do you state proposed clinical actions?",
+        question: "Following delivery, a patient experiences uterine atony and heavy vaginal bleeding. Bimanual compression is started. Which first-line uterotonic drug and dosage should be administered?",
         options: [
-          "Situation",
-          "Background",
-          "Assessment",
-          "Recommendation"
+          "Misoprostol 200mcg PO",
+          "Oxytocin 10 Units IM or 20-40 Units in 1L NS IV infusion",
+          "Methylergonovine 0.2mg IV fast push",
+          "Carboprost 1mg IM"
+        ],
+        answer: 1
+      },
+      {
+        question: "A postpartum client who is Rh-negative gives birth to an Rh-positive infant. Direct Coombs test is negative. When and in what dosage should Rh Immune Globulin be administered?",
+        options: [
+          "300 mcg IM within 72 hours post-delivery",
+          "150 mcg IV immediately",
+          "600 mcg IM at 6 weeks postpartum",
+          "300 mcg PO daily for 3 days"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate born at 35 weeks gestation presents with respiratory distress, grunting, and intercostal retractions due to RDS. What definitive treatment should be administered endotracheally?",
+        options: [
+          "Beractant (Surfactant) 4 mL/kg ET tube",
+          "Ampicillin 50 mg/kg IV",
+          "Albuterol 0.5mL nebulized",
+          "Dexamethasone 0.5 mg/kg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "A postpartum patient with history of hypertension exhibits uterine atony unresponsive to Oxytocin. Which drug is CONTRAINDICATED?",
+        options: [
+          "Misoprostol 800mcg PR",
+          "Tranexamic Acid 1g IV",
+          "Methylergonovine 0.2mg IM",
+          "Carboprost tromethamine 250mcg IM"
+        ],
+        answer: 2
+      },
+      {
+        question: "A patient at 30 weeks in preterm labor is ordered Tocolysis with Nifedipine. What is the standard loading and maintenance dosage?",
+        options: [
+          "20mg PO loading dose, then 10-20mg PO every 4-6 hours",
+          "50mg PO stat, then 50mg daily",
+          "5mg IV push every 15 minutes",
+          "100mg PO Sustained Release BID"
+        ],
+        answer: 0
+      },
+      {
+        question: "A full-term newborn shows a serum bilirubin of 18 mg/dL at 36 hours of life due to ABO incompatibility. Besides phototherapy, what medication prevents severe hemolysis if IVIG is indicated?",
+        options: [
+          "IVIG 0.5 - 1 g/kg IV over 2 hours",
+          "Phenobarbital 5 mg/kg PO",
+          "Albumin 5% 10 mL/kg IV",
+          "Ursodeoxycholic acid 10 mg/kg PO"
+        ],
+        answer: 0
+      },
+      {
+        question: "To prevent Ophthalmia Neonatorum caused by Neisseria gonorrhoeae, what routine prophylactic agent is applied to newborn eyes within 1 hour of birth?",
+        options: [
+          "Erythromycin 0.5% ophthalmic ointment 1-cm ribbon in each eye",
+          "Gentamicin 0.3% drops 2 drops per eye",
+          "Silver Nitrate 2% solution 1 drop per eye",
+          "Ciprofloxacin 0.3% ophthalmic ointment"
+        ],
+        answer: 0
+      },
+      {
+        question: "Standard prophylaxis for Vitamin K Deficiency Bleeding (VKDB) in all newborns requires which immediate IM administration?",
+        options: [
+          "Phytonadione (Vitamin K1) 1 mg IM (0.5 mg for preterm <1.5kg)",
+          "Phytonadione 5 mg PO",
+          "Fresh Frozen Plasma 10 mL/kg IV",
+          "Protamine Sulfate 1 mg IM"
+        ],
+        answer: 0
+      },
+      {
+        question: "A 28-week pregnant female tests positive for Group B Streptococcus (GBS) on rectovaginal screening. What intrapartum antibiotic prophylaxis is administered during labor?",
+        options: [
+          "Penicillin G 5 million units IV loading, then 2.5–3 million units IV every 4 hours until delivery",
+          "Azithromycin 500mg PO single dose",
+          "Ceftriaxone 1g IV single dose",
+          "Clindamycin 300mg PO QID"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate with Sepsis shows lethargy and temperature instability. Empiric IV antibiotic therapy usually consists of:",
+        options: [
+          "Ampicillin 50 mg/kg/dose IV + Gentamicin 2.5 mg/kg/dose IV",
+          "Vancomycin 15 mg/kg IV + Meropenem 20 mg/kg IV",
+          "Cefotaxime 100 mg/kg IV + Amikacin 15 mg/kg IV",
+          "Penicillin G 25,000 U/kg IV + Azithromycin 10 mg/kg PO"
+        ],
+        answer: 0
+      },
+      {
+        question: "A pregnant female at 14 weeks gestation presents with symptomatic UTI. Which oral antibiotic is safest during the first trimester?",
+        options: [
+          "Nitrofurantoin 100mg PO BID for 7 days (avoid in 1st trimester if alternatives exist, or use Amoxicillin/Clavulanate 500mg PO BID)",
+          "Ciprofloxacin 500mg PO BID",
+          "Doxycycline 100mg PO BID",
+          "Trimethoprim-Sulfamethoxazole 160/800mg PO BID"
+        ],
+        answer: 0
+      },
+      {
+        question: "A infant born to an HIV-positive mother requires post-exposure prophylaxis. What is the standard Zidovudine (AZT) regimen?",
+        options: [
+          "Zidovudine 4 mg/kg/dose PO BID starting within 6–12 hours of birth for 4–6 weeks",
+          "Zidovudine 10 mg/kg PO single dose",
+          "Nevirapine 2 mg/kg PO once weekly for 3 months",
+          "Tenofovir 300mg PO daily for 2 weeks"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate presents with Apnea of Prematurity (episodes >20 seconds). What methylxanthine loading and maintenance therapy is initiated?",
+        options: [
+          "Caffeine Citrate 20 mg/kg IV/PO loading, then 5–10 mg/kg PO/IV daily maintenance",
+          "Theophylline 10 mg/kg loading, then 5 mg/kg TID",
+          "Aminophylline 8 mg/kg IV push stat",
+          "Doxapram 2 mg/kg/hr IV continuous"
+        ],
+        answer: 0
+      },
+      {
+        question: "A postpartum client suffering from severe Mastitis with localized erythema and fever is prescribed target anti-staphylococcal therapy:",
+        options: [
+          "Dicloxacillin 500mg PO QID for 10-14 days",
+          "Metronidazole 500mg PO TID",
+          "Gentamicin 80mg IV TID",
+          "Ciprofloxacin 250mg PO BID"
+        ],
+        answer: 0
+      },
+      {
+        question: "A patient receiving Magnesium Sulfate for severe preeclampsia exhibits loss of deep tendon reflexes, RR 10/min, and oliguria. What is the antidote and dose?",
+        options: [
+          "Calcium Gluconate 10% 1g (10 mL) IV over 3-5 minutes",
+          "Naloxone 0.4mg IV",
+          "Flumazenil 0.2mg IV",
+          "Atropine Sulfate 1mg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "During labor induction, tachysystole (>5 contractions in 10 mins) with non-reassuring fetal heart rate occurs due to Oxytocin infusion. What is the primary intervention?",
+        options: [
+          "Stop Oxytocin infusion immediately and administer Terbutaline 0.25mg SC if needed",
+          "Increase IV fluids and double the Oxytocin dose",
+          "Administer Methylergonovine 0.2mg IM",
+          "Place patient in supine position and apply oxygen"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate with Hypoglycemia (blood glucose <40 mg/dL) unresponsive to feeding requires IV bolus dextrose therapy:",
+        options: [
+          "D10W 2 mL/kg IV bolus over 5 minutes, followed by continuous infusion at 6-8 mg/kg/min",
+          "D50W 1 mL/kg IV fast push",
+          "D5W 10 mL/kg IV bolus",
+          "Glucagon 1mg IV fast push"
+        ],
+        answer: 0
+      },
+      {
+        question: "A patient with Hyperemesis Gravidarum at 9 weeks requires antiemetic therapy after first-line Vitamin B6/Doxylamine fails. What is the IV order?",
+        options: [
+          "Ondansetron 4mg to 8mg IV every 8 hours PRN",
+          "Metoclopramide 50mg IV push",
+          "Promethazine 50mg IV fast push",
+          "Droperidol 10mg IV stat"
+        ],
+        answer: 0
+      },
+      {
+        question: "In a patient presenting with an Incomplete Abortion at 10 weeks, medical management to complete uterine evacuation involves:",
+        options: [
+          "Misoprostol 800mcg vaginally or sublingually single dose",
+          "Mifepristone 600mg PO QID for 3 days",
+          "Oxytocin 50 Units IV bolus",
+          "Methotrexate 100mg IM"
+        ],
+        answer: 0
+      },
+      {
+        question: "An unruptured Ectopic Pregnancy (<3.5 cm, no fetal cardiac activity, hCG <5000 IU/L) is managed medically with:",
+        options: [
+          "Methotrexate 50 mg/m² IM single-dose protocol",
+          "Misoprostol 400 mcg PO",
+          "Actinomycin D 0.5 mg IV",
+          "Laparoscopic salpingectomy only"
+        ],
+        answer: 0
+      },
+      {
+        question: "A preterm infant with Patent Ductus Arteriosus (PDA) exhibiting hemodynamically significant left-to-right shunt is prescribed pharmacological closure with:",
+        options: [
+          "Ibuprofen IV (10 mg/kg loading, then 5 mg/kg at 24 and 48 hours) or Indomethacin IV",
+          "Alprostadil (Prostaglandin E1) 0.05 mcg/kg/min",
+          "Furosemide 2 mg/kg IV QID",
+          "Epinephrine 0.1 mL/kg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "To maintain ductal patency in a cyanotic congenital heart disease newborn prior to surgery, which infusion is indicated?",
+        options: [
+          "Alprostadil (Prostaglandin E1) continuous IV infusion 0.05 to 0.1 mcg/kg/min",
+          "Indomethacin 0.2 mg/kg IV",
+          "Dopamine 10 mcg/kg/min",
+          "Sildenafil 1 mg/kg PO"
+        ],
+        answer: 0
+      },
+      {
+        question: "A pregnant female with deep vein thrombosis (DVT) at 24 weeks requires anticoagulation. Which agent and route is safe?",
+        options: [
+          "Enoxaparin (LMWH) 1 mg/kg SC every 12 hours",
+          "Warfarin 5mg PO daily",
+          "Rivaroxaban 15mg PO BID",
+          "Aspirin 325mg PO daily"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate delivered via meconium-stained amniotic fluid is non-vigorous (depressed respiration, poor tone). Current NRP guidelines recommend:",
+        options: [
+          "Initiate PPV (Positive Pressure Ventilation) within 60 seconds if not breathing or HR <100 bpm",
+          "Routine direct endotracheal suctioning before any ventilation",
+          "Administer Naloxone 0.1 mg/kg IV immediately",
+          "Chest compressions at 3:1 ratio immediately"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate born to a Hepatitis B positive mother should receive which immunizations within 12 hours of birth?",
+        options: [
+          "Hepatitis B Vaccine 0.5 mL IM + Hepatitis B Immune Globulin (HBIG) 0.5 mL IM at separate sites",
+          "Hepatitis B Vaccine 0.5 mL IM only",
+          "HBIG 0.5 mL IM only, delay vaccine to 1 month",
+          "Oral Polio Vaccine + HepB Vaccine"
+        ],
+        answer: 0
+      },
+      {
+        question: "Postpartum Endometritis (fever, foul lochia, uterine tenderness) following C-section is treated with gold-standard IV dual/triple therapy:",
+        options: [
+          "Clindamycin 900mg IV q8h + Gentamicin 1.5mg/kg IV q8h",
+          "Ampicillin 500mg PO q6h",
+          "Ceftriaxone 250mg IM single dose",
+          "Vancomycin 1g IV q12h"
+        ],
+        answer: 0
+      },
+      {
+        question: "A pregnant patient at 34 weeks gestation with chronic hypertension presents with BP 170/115 mmHg. Which IV agent is indicated for urgent BP reduction?",
+        options: [
+          "Labetalol 20mg IV slow push (double dose every 10 min up to 80mg) OR Hydralazine 5-10mg IV",
+          "Enalaprilat 1.25mg IV push",
+          "Nitroprusside 10 mcg/kg/min IV",
+          "Amlodipine 10mg PO"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate with Neonatal Abstinence Syndrome (NAS) due to maternal opioid use shows high-pitched cry, tremors, and diarrhea. First-line pharmacological therapy is:",
+        options: [
+          "Morphine sulfate oral solution (0.03 to 0.1 mg/kg/dose every 3-4 hours)",
+          "Naloxone 0.1 mg/kg IV",
+          "Phenobarbital 20 mg/kg IV loading only",
+          "Diazepam 1 mg/kg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "A pregnant patient with overt Hypothyroidism (elevated TSH) requires Levothyroxine adjustment. How is dosing typically modified during pregnancy?",
+        options: [
+          "Increase pre-pregnancy dose by 25% to 30% upon pregnancy confirmation",
+          "Decrease dose by 50% due to placental clearance",
+          "Discontinue Levothyroxine during 1st trimester",
+          "Switch to Methimazole 10mg PO daily"
+        ],
+        answer: 0
+      },
+      {
+        question: "To prevent neural tube defects (NTDs), high-risk pregnant women (prior NTD child or anti-seizure meds) should consume how much Folic Acid daily prior to conception?",
+        options: [
+          "4 mg (4000 mcg) PO daily",
+          "400 mcg PO daily",
+          "1 mg PO daily",
+          "10 mg PO daily"
+        ],
+        answer: 0
+      },
+      {
+        question: "A patient at 26 weeks with Gestational Diabetes Mellitus (GDM) failing dietary modifications requires pharmacotherapy. First-line standard agent is:",
+        options: [
+          "Insulin therapy (starting dose approx. 0.7 - 1.0 units/kg/day total daily dose)",
+          "Metformin 2000mg PO BID",
+          "Glyburide 10mg PO BID",
+          "Glipizide 5mg PO daily"
+        ],
+        answer: 0
+      },
+      {
+        question: "A term newborn develops Neonatal Seizures secondary to hypoxic-ischemic encephalopathy (HIE). First-line anticonvulsant and dose:",
+        options: [
+          "Phenobarbital 20 mg/kg IV slow loading dose",
+          "Phenytoin 5 mg/kg IV",
+          "Levetiracetam 10 mg/kg IV",
+          "Lorazepam 0.5 mg/kg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "A laboring patient at 39 weeks requests epidural analgesia. Prior to catheter placement, what bolus is routinely given to prevent hypotension?",
+        options: [
+          "500 mL - 1000 mL of Lactated Ringer's IV crystalloid co-load/pre-load",
+          "500 mL Dextrose 5% in Water",
+          "250 mL Albumin 5%",
+          "Ephedrine 50mg IV push"
+        ],
+        answer: 0
+      },
+      {
+        question: "A infant with congenital Syphilis (snuffles, osteochondritis) confirmed by VDRL/RPR should be treated with:",
+        options: [
+          "Aqueous Crystalline Penicillin G 50,000 units/kg/dose IV every 12 hours for 10-14 days",
+          "Benzathine Penicillin G 50,000 units/kg IM single dose only",
+          "Erythromycin 10 mg/kg PO QID for 7 days",
+          "Ceftriaxone 100 mg/kg IV daily"
+        ],
+        answer: 0
+      },
+      {
+        question: "During labor, a patient's membranes rupture and umbilical cord prolapse is noted. While holding the presenting part off the cord, what medication reduces uterine contractions?",
+        options: [
+          "Terbutaline 0.25 mg SC to acute tocolyze",
+          "Oxytocin 10 Units IV",
+          "Magnesium Sulfate 10g IM",
+          "Atropine 0.5 mg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "A postpartum woman experiencing severe spinal headache following epidural anesthesia unalleviated by caffeine/hydration is candidate for:",
+        options: [
+          "Epidural Blood Patch (15-20 mL of autologous epidural venous blood)",
+          "Repeat Lumbar Puncture",
+          "Morphine 10mg IV push",
+          "General anesthesia intubation"
+        ],
+        answer: 0
+      },
+      {
+        question: "A premature infant (28 weeks) develops Necrotizing Enterocolitis (NEC) with abdominal distension and pneumatosis intestinalis. Medical management includes:",
+        options: [
+          "NPO, Nasogastric decompression, broad-spectrum IV antibiotics (Ampicillin, Gentamicin, Metronidazole)",
+          "Immediate oral feeding with hydrolyzed formula",
+          "Barium enema study",
+          "High-dose oral probiotics"
+        ],
+        answer: 0
+      },
+      {
+        question: "In a pregnant client with Cholestasis of Pregnancy (intense pruritus on palms/soles, elevated bile acids), the drug of choice is:",
+        options: [
+          "Ursodeoxycholic acid (UDCA) 15 mg/kg/day PO divided in 2-3 doses",
+          "Diphenhydramine 25mg PO TID only",
+          "Cholestyramine 4g PO daily",
+          "Prednisone 40mg PO daily"
+        ],
+        answer: 0
+      },
+      {
+        question: "A patient experiencing primary dysmenorrhea/endometriosis pain in postpartum outpatient setting is prescribed standard NSAID inhibition:",
+        options: [
+          "Mefenamic Acid 500mg PO loading, then 250mg PO q6h PRN",
+          "Acetaminophen 325mg PO q8h",
+          "Tramadol 100mg IV q4h",
+          "Celecoxib 400mg PO BID"
+        ],
+        answer: 0
+      },
+      {
+        question: "A term newborn develops Transient Tachypnea of the Newborn (TTN) following elective C-section. Primary supportive therapy consists of:",
+        options: [
+          "Supplemental Oxygen to maintain SpO2 >90%, neutral thermal environment, observation",
+          "Furosemide 2 mg/kg IV stat",
+          "Exogenous Surfactant administration",
+          "Immediate endotracheal intubation"
+        ],
+        answer: 0
+      },
+      {
+        question: "A laboring patient given Systemic Opioid Analgesia (Meperidine/Fentanyl) close to delivery yields a depressed neonate. What respiratory support & antidote protocol applies?",
+        options: [
+          "Effective ventilation (PPV) first; Naloxone 0.1 mg/kg IV/IM if respiratory depression persists due to maternal opioids",
+          "Naloxone 1 mg/kg IV fast push before ventilation",
+          "Epinephrine 1:10,000 IV stat",
+          "Sodium Bicarbonate 2 mEq/kg IV"
+        ],
+        answer: 0
+      },
+      {
+        question: "A postpartum client diagnosed with Deep Vein Thrombosis (DVT) while breastfeeding requires long-term oral anticoagulation. Which agent is safe during lactation?",
+        options: [
+          "Warfarin (coumadin) titrated to target INR 2.0 - 3.0",
+          "Aspirin 325mg daily",
+          "Dabigatran 150mg BID",
+          "Low molecular weight heparin is not excreted in milk, Warfarin is also safe"
         ],
         answer: 3
       },
       {
-        question: "Which blood pressure reading represents Stage 1 Hypertension according to standard clinical guidelines?",
+        question: "A neonate with congenital hypothyroidism must begin thyroid hormone replacement within 2 weeks of birth to prevent intellectual disability. Correct dose:",
         options: [
-          "118/78 mmHg",
-          "128/82 mmHg",
-          "134/86 mmHg",
-          "142/92 mmHg"
+          "Levothyroxine 10 to 15 mcg/kg/day PO crushed in breastmilk/water",
+          "Levothyroxine 50 mcg/kg/day PO",
+          "Liothyronine (T3) 5 mcg/kg/day IV",
+          "Methimazole 1 mg/kg/day PO"
         ],
-        answer: 2
+        answer: 0
+      },
+      {
+        question: "A patient at 41 weeks gestation has an unfavorable cervix (Bishop score <6). What intravaginal prostaglandin is used for cervical ripening?",
+        options: [
+          "Dinoprostone 10mg vaginal insert (Cervidil) slow release over 12 hours",
+          "Oxytocin 20 Units IM",
+          "Misoprostol 400mcg IV push",
+          "Mifepristone 200mg vaginally"
+        ],
+        answer: 0
+      },
+      {
+        question: "An infant born at 26 weeks gestation exhibits persistent hypotension refractory to volume resuscitation. Hydrocortisone therapy dose:",
+        options: [
+          "Hydrocortisone 1 mg/kg IV every 8-12 hours",
+          "Dexamethasone 5 mg/kg IV",
+          "Prednisolone 2 mg/kg PO",
+          "Epinephrine infusion 1 mcg/kg/min"
+        ],
+        answer: 0
+      },
+      {
+        question: "A pregnant female at 32 weeks presents with active Herpes Simplex Virus (HSV) genital lesions. To suppress viral shedding for vaginal delivery option, administer:",
+        options: [
+          "Acyclovir 400mg PO TID from 36 weeks until delivery",
+          "Valacyclovir 2000mg PO single dose",
+          "Ganciclovir 5mg/kg IV BID",
+          "Famciclovir 125mg PO once"
+        ],
+        answer: 0
+      },
+      {
+        question: "A neonate born with Meconium Aspiration Syndrome (MAS) develops Persistent Pulmonary Hypertension of the Newborn (PPHN). Selective pulmonary vasodilator therapy:",
+        options: [
+          "Inhaled Nitric Oxide (iNO) at 20 ppm",
+          "IV Sildenafil 5 mg/kg/hr",
+          "Milrinone 1 mg/kg bolus",
+          "Prostaglandin E1 infusion"
+        ],
+        answer: 0
+      },
+      {
+        question: "A patient at 36 weeks experiencing severe preeclampsia is given IV Magnesium Sulfate. The target therapeutic serum magnesium level is:",
+        options: [
+          "4.0 to 7.0 mEq/L (4.8 to 8.4 mg/dL)",
+          "1.0 to 2.0 mEq/L",
+          "10.0 to 12.0 mEq/L",
+          "15.0 to 20.0 mEq/L"
+        ],
+        answer: 0
       }
     ];
 
@@ -222,46 +690,70 @@
     let score = 0;
     let answered = false;
 
+    // Helper: Shuffle choices dynamically while preserving correct answer tracking
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     function loadQuestion() {
       answered = false;
       const q = questions[currentIdx];
-      document.getElementById("question-text").innerText = `${currentIdx + 1}. ${q.question}`;
+
+      document.getElementById("question-number").innerText = `Case ${currentIdx + 1} of ${questions.length}`;
+      document.getElementById("question-text").innerText = q.question;
+
+      // Prepare options with tracking
+      let formattedOptions = q.options.map((opt, i) => ({
+        text: opt,
+        isCorrect: i === q.answer
+      }));
+
+      // Shuffle choices so correct answer isn't always option A
+      formattedOptions = shuffleArray(formattedOptions);
 
       const optsContainer = document.getElementById("options-container");
       optsContainer.innerHTML = "";
 
-      q.options.forEach((opt, idx) => {
+      formattedOptions.forEach((optObj) => {
         const btn = document.createElement("button");
-        btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-200 border border-slate-600/50 hover:border-slate-500 transition duration-150 flex items-center justify-between";
-        btn.onclick = () => handleAnswer(idx, btn);
-        btn.innerHTML = `<span>${opt}</span>`;
+        btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-200 border border-slate-600/50 hover:border-slate-500 transition duration-150 text-sm leading-snug";
+        btn.onclick = () => handleAnswer(optObj.isCorrect, btn, optsContainer);
+        btn.innerHTML = `<span>${optObj.text}</span>`;
+        btn.dataset.correct = optObj.isCorrect;
         optsContainer.appendChild(btn);
       });
     }
 
-    function handleAnswer(selectedIdx, btnElement) {
+    function handleAnswer(isCorrect, btnElement, container) {
       if (answered) return;
       answered = true;
 
-      const q = questions[currentIdx];
-      const allButtons = document.getElementById("options-container").children;
+      const allButtons = container.children;
 
-      if (selectedIdx === q.answer) {
+      if (isCorrect) {
         score++;
-        soundEngine.playCorrect(); // Sound Benar
+        soundEngine.playCorrect();
         btnElement.classList.remove("bg-slate-700/60", "border-slate-600/50");
-        btnElement.classList.add("bg-emerald-600/30", "border-emerald-500", "text-emerald-200");
+        btnElement.classList.add("bg-emerald-600/30", "border-emerald-500", "text-emerald-200", "font-medium");
       } else {
-        soundEngine.playIncorrect(); // Sound Salah
+        soundEngine.playIncorrect();
         btnElement.classList.remove("bg-slate-700/60", "border-slate-600/50");
         btnElement.classList.add("bg-rose-600/30", "border-rose-500", "text-rose-200");
 
-        // Tunjukkan jawaban yang benar
-        allButtons[q.answer].classList.remove("bg-slate-700/60", "border-slate-600/50");
-        allButtons[q.answer].classList.add("bg-emerald-600/20", "border-emerald-500/50", "text-emerald-300");
+        // Highlight correct choice
+        Array.from(allButtons).forEach(btn => {
+          if (btn.dataset.correct === "true") {
+            btn.classList.remove("bg-slate-700/60", "border-slate-600/50");
+            btn.classList.add("bg-emerald-600/20", "border-emerald-500/50", "text-emerald-300");
+          }
+        });
       }
 
-      document.getElementById("score-display").innerText = `Score: ${score}`;
+      document.getElementById("score-display").innerText = `Score: ${score} / ${questions.length}`;
 
       setTimeout(() => {
         currentIdx++;
@@ -270,7 +762,7 @@
         } else {
           showResults();
         }
-      }, 1200);
+      }, 1400);
     }
 
     function showResults() {
@@ -280,23 +772,22 @@
       const resultContainer = document.getElementById("result-container");
       resultContainer.classList.remove("hidden");
 
-      document.getElementById("final-score").innerText = `Nilai Akhir Anda: ${score} dari ${questions.length}`;
+      document.getElementById("final-score").innerText = `Nilai Akhir Anda: ${score} dari ${questions.length} Soal (${Math.round((score/questions.length)*100)}%)`;
 
-      // Sound Tepuk Tangan saat selesai
       soundEngine.playApplause();
     }
 
     function restartQuiz() {
       currentIdx = 0;
       score = 0;
-      document.getElementById("score-display").innerText = `Score: ${score}`;
+      document.getElementById("score-display").innerText = `Score: 0 / ${questions.length}`;
       document.getElementById("result-container").classList.add("hidden");
       document.getElementById("quiz-container").classList.remove("hidden");
       document.getElementById("quiz-header").classList.remove("hidden");
       loadQuestion();
     }
 
-    // Jalankan pertama kali
+    // Launch application
     loadQuestion();
   </script>
 </body>
