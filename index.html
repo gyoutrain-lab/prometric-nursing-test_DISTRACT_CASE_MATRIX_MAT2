@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+
+  <div class="max-w-xl w-full bg-slate-800 rounded-2xl shadow-2xl p-6 border border-slate-700">
+    <!-- Quiz Header -->
+    <div id="quiz-header" class="mb-6 border-b border-slate-700 pb-4 flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-bold text-teal-400">Clinical & Professional Assessment</h1>
+        <p class="text-xs text-slate-400 mt-1">Pilihlah jawaban yang paling tepat</p>
+      </div>
+      <div id="score-display" class="bg-slate-900 px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 border border-slate-700">
+        Score: 0
+      </div>
+    </div>
+
+    <!-- Question Container -->
+    <div id="quiz-container">
+      <div id="question-text" class="text-base font-medium mb-4 text-slate-200">
+        Loading question...
+      </div>
+      <div id="options-container" class="space-y-3">
+        <!-- Options injected dynamically -->
+      </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="result-container" class="hidden text-center py-8">
+      <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-2">Assessment Selesai!</h2>
+      <p id="final-score" class="text-lg text-slate-300 mb-6">Nilai Akhir Anda: 0 / 0</p>
+      <button onclick="restartQuiz()" class="px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-medium rounded-lg shadow-lg transition duration-200">
+        Ulangi Assessment
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // SOUND ENGINE (Web Audio API Synthesizer)
+    // ==========================================
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      // 1. Exciting Click (Correct Answer)
+      playCorrect() {
+        this.init();
+        const now = this.ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // Arpeggio C Major
+
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+
+          gain.gain.setValueAtTime(0, now + idx * 0.05);
+          gain.gain.linearRampToValueAtTime(0.2, now + idx * 0.05 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.05 + 0.2);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(now + idx * 0.05);
+          osc.stop(now + idx * 0.05 + 0.2);
+        });
+      }
+
+      // 2. Bad Tone / Low Buzz (Incorrect Answer)
+      playIncorrect() {
+        this.init();
+        const now = this.ctx.currentTime;
+
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc1.type = 'sawtooth';
+        osc2.type = 'sawtooth';
+
+        osc1.frequency.setValueAtTime(140, now);
+        osc1.frequency.linearRampToValueAtTime(100, now + 0.3);
+
+        osc2.frequency.setValueAtTime(147, now);
+        osc2.frequency.linearRampToValueAtTime(105, now + 0.3);
+
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.3);
+        osc2.stop(now + 0.3);
+      }
+
+      // 3. Victory Applause & Fanfare (Final Result)
+      playApplause() {
+        this.init();
+        const now = this.ctx.currentTime;
+        const duration = 2.5;
+
+        const chords = [
+          { time: 0.0, freqs: [523.25, 659.25, 783.99] },
+          { time: 0.25, freqs: [659.25, 783.99, 1046.50] },
+          { time: 0.5, freqs: [523.25, 659.25, 783.99, 1046.50, 1318.51] }
+        ];
+
+        chords.forEach(chord => {
+          chord.freqs.forEach(freq => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + chord.time);
+
+            const chordDur = chord.time === 0.5 ? 1.0 : 0.2;
+            gain.gain.setValueAtTime(0.12, now + chord.time);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + chord.time + chordDur);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+
+            osc.start(now + chord.time);
+            osc.stop(now + chord.time + chordDur);
+          });
+        });
+
+        const bufferSize = this.ctx.sampleRate * duration;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1000, now);
+        filter.Q.setValueAtTime(1.0, now);
+
+        const noiseGain = this.ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.01, now);
+        noiseGain.gain.linearRampToValueAtTime(0.18, now + 0.4);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+        noise.connect(filter);
+        filter.connect(noiseGain);
+        noiseGain.connect(this.ctx.destination);
+
+        noise.start(now);
+        noise.stop(now + duration);
+      }
+    }
+
+    const soundEngine = new SoundEngine();
+
+    // ==========================================
+    // BANK SOAL & LOGIKA APP
+    // ==========================================
+    const questions = [
+      {
+        question: "A patient presents with sudden dyspnea and chest pain. What is the priority immediate nursing intervention?",
+        options: [
+          "Administer prescribed oral analgesics",
+          "Assess airway, breathing, and oxygen saturation",
+          "Document vital signs in the electronic chart",
+          "Schedule a stat chest X-ray"
+        ],
+        answer: 1
+      },
+      {
+        question: "When delivering an SBAR handover report, under which component do you state proposed clinical actions?",
+        options: [
+          "Situation",
+          "Background",
+          "Assessment",
+          "Recommendation"
+        ],
+        answer: 3
+      },
+      {
+        question: "Which blood pressure reading represents Stage 1 Hypertension according to standard clinical guidelines?",
+        options: [
+          "118/78 mmHg",
+          "128/82 mmHg",
+          "134/86 mmHg",
+          "142/92 mmHg"
+        ],
+        answer: 2
+      }
+    ];
+
+    let currentIdx = 0;
+    let score = 0;
+    let answered = false;
+
+    function loadQuestion() {
+      answered = false;
+      const q = questions[currentIdx];
+      document.getElementById("question-text").innerText = `${currentIdx + 1}. ${q.question}`;
+
+      const optsContainer = document.getElementById("options-container");
+      optsContainer.innerHTML = "";
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-700/60 hover:bg-slate-700 text-slate-200 border border-slate-600/50 hover:border-slate-500 transition duration-150 flex items-center justify-between";
+        btn.onclick = () => handleAnswer(idx, btn);
+        btn.innerHTML = `<span>${opt}</span>`;
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIdx, btnElement) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[currentIdx];
+      const allButtons = document.getElementById("options-container").children;
+
+      if (selectedIdx === q.answer) {
+        score++;
+        soundEngine.playCorrect(); // Sound Benar
+        btnElement.classList.remove("bg-slate-700/60", "border-slate-600/50");
+        btnElement.classList.add("bg-emerald-600/30", "border-emerald-500", "text-emerald-200");
+      } else {
+        soundEngine.playIncorrect(); // Sound Salah
+        btnElement.classList.remove("bg-slate-700/60", "border-slate-600/50");
+        btnElement.classList.add("bg-rose-600/30", "border-rose-500", "text-rose-200");
+
+        // Tunjukkan jawaban yang benar
+        allButtons[q.answer].classList.remove("bg-slate-700/60", "border-slate-600/50");
+        allButtons[q.answer].classList.add("bg-emerald-600/20", "border-emerald-500/50", "text-emerald-300");
+      }
+
+      document.getElementById("score-display").innerText = `Score: ${score}`;
+
+      setTimeout(() => {
+        currentIdx++;
+        if (currentIdx < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
+      }, 1200);
+    }
+
+    function showResults() {
+      document.getElementById("quiz-container").classList.add("hidden");
+      document.getElementById("quiz-header").classList.add("hidden");
+
+      const resultContainer = document.getElementById("result-container");
+      resultContainer.classList.remove("hidden");
+
+      document.getElementById("final-score").innerText = `Nilai Akhir Anda: ${score} dari ${questions.length}`;
+
+      // Sound Tepuk Tangan saat selesai
+      soundEngine.playApplause();
+    }
+
+    function restartQuiz() {
+      currentIdx = 0;
+      score = 0;
+      document.getElementById("score-display").innerText = `Score: ${score}`;
+      document.getElementById("result-container").classList.add("hidden");
+      document.getElementById("quiz-container").classList.remove("hidden");
+      document.getElementById("quiz-header").classList.remove("hidden");
+      loadQuestion();
+    }
+
+    // Jalankan pertama kali
+    loadQuestion();
+  </script>
+</body>
+</html>
